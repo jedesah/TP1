@@ -6,7 +6,8 @@ import play.api.mvc._
 object Application extends Controller {
   
   def index = Action {
-    Ok(views.html.index(scala.util.Random.nextInt(10000)))
+  	import scala.util.Random
+    Ok(views.html.index(1 + Random.nextInt(10000), 1 + Random.nextInt(100), 1 + Random.nextInt(100), 1 + Random.nextInt(100)))
   }
   
 }

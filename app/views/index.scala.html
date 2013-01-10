@@ -1,4 +1,4 @@
-@(rewardAmount: Int)
+@(rewardAmount: Int, secondsInMinute: Int, minutesInHour: Int, hoursInDay: Int)
 
 @main("TP1") {
 <header>
@@ -24,7 +24,7 @@
 	<li>Conformité de votre entrepôt Git à ce qui est attendu: 80%</li>
 	<li>Conformité de votre fichier patch pour V8: 20%</li>
 </ul>
-<h2>Tutoriel</h2>
+<h2>Tutoriel 1</h2>
 <h3>Introduction</h3>
 <p>Il s'est produit, il n'y a pas si longtemps, une catastrophe de nature apocalyptique qui a replongé la société humaine à l'âge noir du savoir. Il reste encore certains artéfact de l'ancienne civilization, mais trop peu de gens savent comme faire fonctionner ces bidules.</p>
 <p>C'est ici que tu fais ton entré, tu es le magicien informatique de ta tribue de nomade. Le chef Bram de la tribu a besoin d'une application de "to do" pour faire la gestion des tâches qui permettront de reconstruction l'humanite. Il fait appel a tes pouvoirs pour lui créer une telle application.</p>
@@ -94,4 +94,11 @@
 <li>Paie @rewardAmount rubies to &#60your_name&#62<li>
 <p>L'utilisateur ne doit pas pouvoir l'effacer</p>
 <p>Zip moi ca (le repertoire du projet), puis remet moi ça sur Moodle.</p>
+<h2>Tutoriel 2</h2>
+<p>Le chef Bram a encore besoin de toi pour une nouvelle tâche. Dans le future, la mesure du temps n'est pas aussi omniprésente qu'elle l'était avant. Chef Bram aimerait profiter de l'occasion pour changer la façon dont nous mesurons le temps. Pour ce faire, tu vas devoir faire un checkout de du projet V8 (l'interpréteur Javascript de Chrome) et modifier l'implémentation du temps pour que les gens qui programme en javascript pourront bénéficier de la meilleure dénommination du temps proposé par le chef Bram. Le projet V8 se trouve <a href="http://code.google.com/p/v8/">ici</a>. Tu es rendu un apprenti magicien maintenant, je ne te dirai pas exactement comment faire. Chef Bram aimerait que le temps soit compté ainsi:</p>
+<ul>
+	<li>Il y a @secondsInMinute secondes dans une minute</li>
+	<li>Il y a @minutesInHour minutes dans une heure</li>
+	<li>Il y a @hoursInDay heures dans une journée</li>
+</ul>
 }
