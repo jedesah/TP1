@@ -1,73 +1,97 @@
 @(rewardAmount: Int)
 
 @main("TP1") {
-<h1>Introduction</h1>
-<p>Il s'est produit, il n'y a pas si longtemps, une catastrophe de nature apocalyptique qui a replonge la societe humaine a l'age noir du savoir. Il reste encore certains artefact de l'ancienne civilization, mais trop peu de gens savent comme faire fonctionner ces machins de technologie.</p>
-<p>C'est ici que tu fais ton entre, tu es le magicien informatique de ta tribue de nomade. Le chef Bram de la tribu a besoin d'une application de "to do" pour faire la gestion des taches de reconstruction de l'humanite. Il fait appel a tes pouvois pour lui creer une telle application.</p>
-<p>Tu es un peu inquiet de ne pas reussir a effectuer la tache qui est demande de toi, mais pas de souci, je serai la pour t'aider dans ton apprentissage de la sorcellerie informatique.</p>
-<h1>Unix</h1>
-<p>Tous les ordinateurs Windows ont ete detruits par l'apocalypse. De toute facon, Windows 9 etait un flop total.</p>
-<p>En tant que magicien de l'informatique, tu te veras confronte a la console console Unix. Il serait bien de savoir un peu comment ca fonctionne. Pour l'instant, tu peux te contenter de savoir que ls te permet de lister les fichiers dans le repertoire courant et cd te permet de changer de repertoire courant (change directory). Mais on est en 2016 quand meme, tu peux activer le "panel" "Terminal" de l'explorateur de fichier Dolphin si tu es en train d'utiliser Fedora KDE. Ainsi, tu pourras naviguer avecun beau GUI et pouvoir facilement executer les commandes speciales que tu as besoin d'executer en temps et lieu.</p>
+<header>
+	<p>
+		<time pubdate datetime="2013-01-10"></time>10 janvier 2013
+	</p>
+</header>
+<h1>LOG1000 - Travail pratique #1 - Construction logiciel et gestion de révision<h1>
+<h2>Objectifs</h2>
+<ul>
+	<li>Comprendre l'utilité et le fonctionnement des systèmes de gestion de révision</li>
+	<li>Développer une compétence de base avec Git, un logiciel de gestion de révision communément utilisé pour les logiciels à source libre</li>
+	<li>Développer une compétence de base avec le système d’exploitation Linux pour ceux qui n’y sont pas déjà familiés</li>
+</ul>
+<h2>Éxigences</h2>
+<ul>
+	<li>Compléter le tutoriel suivant seul ou en équipe de 2</li>
+	<li>Remettre sur Moodle votre entrepôt Git sous la forme d'une archive</li>
+	<li>Remettre sur Moodle votre fichier patch de votre changement à V8</li>
+</ul>
+<h2>Critère de correction</h2>
+<ul>
+	<li>Conformité de votre entrepôt Git à ce qui est attendu: 80%</li>
+	<li>Conformité de votre fichier patch pour V8: 20%</li>
+</ul>
+<h2>Tutoriel</h2>
+<h3>Introduction</h3>
+<p>Il s'est produit, il n'y a pas si longtemps, une catastrophe de nature apocalyptique qui a replongé la société humaine à l'âge noir du savoir. Il reste encore certains artéfact de l'ancienne civilization, mais trop peu de gens savent comme faire fonctionner ces bidules.</p>
+<p>C'est ici que tu fais ton entré, tu es le magicien informatique de ta tribue de nomade. Le chef Bram de la tribu a besoin d'une application de "to do" pour faire la gestion des tâches qui permettront de reconstruction l'humanite. Il fait appel a tes pouvoirs pour lui créer une telle application.</p>
+<p>Tu es un peu inquiet de ne pas réussir à effectuer la tâche qui est demandé de toi, mais pas de souci, je serai la pour t'aider dans ton apprentissage de la sorcellerie informatique.</p>
+<h3>Unix</h3>
+<p>Tous les ordinateurs Windows ont été détruits par l'apocalypse. De toute facon, Windows 9 était un flop total.</p>
+<p>En tant que magicien de l'informatique, tu te veras confronté à la console Unix. Il serait bien de savoir un peu comment ça fonctionne. Pour l'instant, tu peux te contenter de savoir que la commande ls te permet de lister les fichiers dans le repertoire courant et que la commande cd te permet de changer de repertoire courant (change directory). Mais on est en 2016 quand même, tu peux activer le "panel" "Terminal" de l'explorateur de fichier Dolphin si tu es en train d'utiliser Fedora KDE. Ainsi, tu pourras naviguer dans tes répertoires avec un beau GUI et éxecuter les commandes avec ce Panel.</p>
 <img src="@routes.Assets.at("images/terminalPanel.png")" alt="oops, good luck without pictures">
-<h1>Checklist</h1>
-<p>Afin de completer notre tache, nous allons utiliser deux logiciels particuliers, Git et Play. Tout d'abord, nous allons utiliser un des meilleurs systeme de gestion de revision avant l'apocalypse, Git. Git est un program tres commun et il se peut tres bien qu'il soit deja installe sur le poste. Execute la commande:</p>
+<h3>Checklist</h3>
+<p>Afin de compléter notre tâche, nous allons utiliser Git et Play. Git est un des meilleurs système de gestion de revision. C'est un program très commun et il est probablement déjà installé sur le poste que tu utilises. Execute la commande:</p>
 <p>$ git --version</p>
 <img src="@routes.Assets.at("images/git.png")" alt="oops, good luck without pictures">
-<p>pour savoir si le logiciel est present sur la machine et pour savoir c'est quel version. Pour plus d'information sur Git, tu peux visiter le <a href="http://git-scm.com">site web officiel.</a></p>
-<p>Maintenant, installons Play, le framework de developpement web que nous allons utiliser. Nous avons choisi de faire notre application de "todo" pour le secours de l'humanite sous la form d'une application web afin que le chef Bram puisse verifier c'est todo meme lorsqu'il est partie en conquete de territoire lointain, sur n'importe quel terminal connecte au web magique. Rendez-vous sur le site web <a href="www.playframework.org">www.playframework.org</a> et telechargez la version 2.1 du logiciel. Allez de l'avant et extrayez l'archive et placez le dossier a quelque part dans votre repertoire personnel.</p>
-<h1>De simple debut</h1>
-<p>Choisissez un emplacement adequat comme ~/Projet et executer la commande:</p>
+<p>pour savoir si le logiciel est présent sur la machine. Cette commande devrait imprimer la version de Git qui est installé sur le poste, si le terminal dit que la commande Git n'est pas trouvé, alors tu devras procéder à l'installation de Git. Pour plus d'information sur Git, tu peux visiter le <a href="http://git-scm.com">site web officiel.</a></p>
+<p>Maintenant, installons Play. Play est un framework de developpement web. Nous avons choisi de faire notre application de "todo" pour le secours de l'humanité sous la form d'une application web afin que le chef Bram puisse vérifier c'est todo même lorsqu'il est partie en conquête de territoire lointain. En effet, il pourra consulter ces todos sur n'importe quel terminal branché au web magique. Rendez-vous sur le site web <a href="www.playframework.org">www.playframework.org</a> et téléchargez la version 2.1 du logiciel. Allez de l'avant et extrayez l'archive et placez le dossier a quelque part dans votre répertoire personnel.</p>
+<h3>De simple debut</h3>
+<p>Choisissez un emplacement adéquat comme ~/Projet et éxecutez la commande:</p>
 <p>$ play new todo</p>
 <img src="@routes.Assets.at("images/playConsole.png")" alt="oops, good luck without pictures">
-<p>Play vous demandera de confirmer le nom de l'application, vous pouvez simplement cliquer sur Entrez pour garder le nom todo. Ensuite choisissez l'option 1(Create a simple Scala application). Play devrait avoir cree un repertoire denomme todo dans le repertoire courant. Rentrez dans ce repertoire et executez la commande:</p>
+<p>Play vous demandera de confirmer le nom de l'application, vous pouvez simplement cliquer sur Entrez pour garder le nom todo. Ensuite choisissez l'option 1 (Create a simple Scala application). Play devrait avoir créé un repertoire dénommé todo dans le répertoire courant. Rentrez dans ce répertoire et éxecutez la commande:</p>
 <p>$ play</p>
-<p>Ceci a commence la console Play. Executez maintenant la commande:</p>
+<p>Ceci devrait avoir commencé la console Play. Éxecutez maintenant la commande:</p>
 <p>$ [todo] $ run</p>
-<p>afin de partir l'application web en debug. Vous pouvez maintenant visiter l'adresse localhost:9000 dans votre navigateur afin de voir a quoi ressemble le site web qui sert d'exemple</p>
+<p>afin de démarrer l'application web en debug. Vous pouvez maintenant visiter l'adresse localhost:9000 dans votre navigateur afin de voir a quoi ressemble le site web qui sert d'exemple.</p>
 <p>Tout ce texte est bien beau, et vous pouvez vous en servir pour apprendre plus a propos de Play, mais on en a pas vraiment besoin pour faire une application de todo. Naviguez vers le fichier app/controllers/Application.scala et changez l'implementation de la fonction index pour:</p>
 <img src="@routes.Assets.at("images/basicApplication.png")" alt="oops, good luck without pictures">
-<p>Si vous rafraichissez la page web dans votre navigateur, vous verez la nouvelle page web que notre controlleur genere pour la page principale.</p>
+<p>Si vous rafraîchissez la page web dans votre navigateur, vous verez la nouvelle page web que notre controlleur génère pour la page principale.</p>
 <img src="@routes.Assets.at("images/basicApplicationOutput.png")" alt="oops, good luck without pitures">
-<h1>C'est le temps d'etre serieux</h1>
-<p>Nous avons peut-etre pas encore rien accomplie de particulierement interessant, mais tous les morceaux sont en place pour sauver le monde. Commencons par definir les urls de notre application web. Ouvrez le fichier conf/routes et modifier le pour qu'il ressemble a ceci:</p>
+<h3>C'est le temps d'être sérieux</h3>
+<p>Nous avons peut-être pas encore rien accomplie de particulièrement intéressant, mais tous les morceaux sont en place pour sauver le monde. Commençons par définir les urls de notre application web. Ouvrez le fichier conf/routes et modifiez le pour qu'il ressemble a ceci:</p>
 <img src="@routes.Assets.at("images/routes.png")" alt="oops, good luck without pictures">
-<p>Si tu rafraichies la page web dans le navigateur, tu vas constater que Play nous affiche ene erreu de compilation puisque notre configuration fait references a des fonctions qui n'existe pas. Ajoutons ces fonctions a notre Controlleur Application:</p>
+<p>Si tu rafraichies la page web dans le navigateur, tu vas constater que Play nous affiche une erreur de compilation puisque notre configuration fait référence a des fonctions qui n'existe pas. Ajoutons ces fonctions a notre controlleur Application:</p>
 <img src="@routes.Assets.at("images/application1.png")" alt="Oops, good luck without pictures">
-<p>Comme vous le constatez, on peut utiliser TODO pour indiquer que la fonction n'est pas encore implemente. Si vous tentez de navigues vers la page http://localhost:9000/tasks, vous devriez voir un message qui vous indique que ce "URL" n'est pas encore implemente. Avant de pouvoir fournir des implementations adequate a notre controlleur, nous allons devoir modeliser la logique du domaine qui nous interesse. Creez le fichier app/models/Task.scala et ajoutez le contenu suivant:</p>
+<p>Comme vous le constatez, on peut utiliser TODO pour indiquer que la fonction n'est pas encore implementé. Si vous tentez de naviguer vers la page http://localhost:9000/tasks, vous devriez voir un message qui vous indique que ce "URL" n'est pas encore implementé. Avant de pouvoir fournir des implémentations adéquates a notre controlleur, nous allons devoir modéliser la logique du domaine qui nous intéresse. Creez le fichier app/models/Task.scala et ajoutez le contenu suivant:</p>
 <img src="@routes.Assets.at("images/task.png")" alt="Oops, good luck without pictures">
-<p>Attaquons nous maintenant a l'implementation de la vue (page html). Modifier le contenu du fichier app/views/index.html.scala pour avoir ceci:</p>
+<p>Attaquons nous maintenant à l'implementation de la vue (page html). Modifiez le contenu du fichier app/views/index.html.scala pour avoir ceci:</p>
 <img src="@routes.Assets.at("images/view1.png")" alt="Oops, good luck without pictures">
-<p>Maintenant, fesons appel a notre vue, a partir du controlleur. Changer le contenu du fichier app/controller/Application.scala pour ce qui suit:</p>
+<p>Maintenant, faisons appel a nôtre vue à partir du controlleur. Changez le contenu du fichier app/controller/Application.scala pour ce qui suit:</p>
 <img src="@routes.Assets.at("images/application2.png")" alt="Oops, good luck without pictures">
-<p>Parfait, maintenant visite la page http://localhost:9000/tasks pour t'assurer que tout fonctionne. Maintenant, on peut changer l'implementation de la foncton all() pour retourner des Task et c'est Task devrait etre correctement affiche sur la page. Sa tombe bien, on a deja une idee de qu'il y a faire afin de pouvoir reconstruire l'humanite. Modifier l'implemenation de la fonction all() pour retourner une liste qui contient les elements suivants:</p>
+<p>Parfait, maintenant visite la page http://localhost:9000/tasks pour t'assurer que tout fonctionne. On peut changer l'implémentation de la foncton all() pour qu'elle retourne des Task et c'est Task devraient s'afficher correctement sur la page. Sa tombe bien, on a déjà une idée de qu'il y a à faire afin de pouvoir reconstruire l'humanité. Modifie l'implemenation de la fonction all() pour qu'elle retourne une liste qui contient les élements suivants:</p>
 <ul>
   <li>Trouver de la bouffe</li>
-  <li>Procreer</li>
-  <li>Apprendre a reproduire le feu</li>
-  <li>Creer des universites</li>
+  <li>Procréer</li>
+  <li>Apprendre à commencer du feu</li>
+  <li>Créer des universités</li>
   <li>Creer le cours LOG1000</li>
-  <li>Etablir une monnaie</li>
-  <li>Definir des mesures standards</li>
+  <li>Établir une monnaie</li>
+  <li>Définir des mesures standards</li>
 </ul>
-<p>Felicitations, nous sommes arrive a quelque chose qui vaut la peine, je crois, d'etre souligne. Nous avons mis les morceaux en place qui vont nous permettre de venir a bout de ce projet, et deja on peut afficher une liste de chose a faire que chef Abram peut regarder pendant ses voyages. Bon, c'est sur qu'on peut pas ajouter ni effacer des element, mais ces choses viendront avec le temps. Il est maintenant venu le temps de prendre notre premiere photo de notre projet actuel. Tout d'abord, il faut dire a Git que nous voulong versionner le projet. On fait ca en exetutant les deux commandes suivante dans le repertoire principale de notre projet:</p>
+<p>Félicitations, nous sommes arrivé à quelque chose qui vaut la peine, je crois, d'être souligné. Nous avons mis les morceaux en place qui vont nous permettre de venir à bout de ce projet. Déjà on peut afficher une liste de chose à faire que chef Abram peut regarder pendant ses voyages. Bon, c'est sur qu'on peut pas ajouter ni effacer des élements, mais ces choses viendront avec le temps. Il est maintenant venu le moment de prendre notre première photo de notre projet dans son état actuel. Tout d'abord, il faut dire à Git que nous voulons versionner le projet. On fait ça en éxétutant les deux commandes suivantes dans le repertoire principal de notre projet:</p>
 <p>$ git init</p>
 <p>$ git add --all</p>
-<p>Git est maintenant au courant de notre intention de versionner le repertoire du projet. On peut maintenant prendre la photo en executant la commande suivante:</p>
+<p>Git est maintenant au courant de notre intention de versionner le répertoire du projet. On peut maintenant prendre la photo en éxécutant la commande suivante:</p>
 <p>$ git commit -m "Affiche une liste immutable de tache"</p>
-<h1>Et maintenant?</h1>
-<p>Malheureusement, on ne peut pas toute planifer notre vie a l'avance. C'est pourquoi nous allons maintenant ajouter la possibilite d'ajouter des taches a notre application. Commencons par ajouter une Form sur notre page principale.</p>
+<h3>Et maintenant?</h3>
+<p>Malheureusement, on ne peut pas toute planifer notre vie à l'avance. C'est pourquoi nous allons maintenant ajouter la possibilité d'ajouter des tâches a notre application. Commençons par ajouter une Form sur notre page principale.</p>
 <img src="@routes.Assets.at("images/view2.png")" alt="Oops, good luck without pictures">
-<p>On peut maintenant ajouter l'implementation a notre Controlleur qui va nous permettre de recevoir l'information de cette Form</p>
+<p>On peut maintenant ajouter l'implémentation à notre controlleur qui va nous permettre de recevoir l'information de cette Form</p>
 <img src="@routes.Assets.at("images/application3.png")" alt="Oops, good luck without pictures">
-<p>Et puis finalement, nous devons modifier l'implementation de notre modele, afin que l'ajout de tache soit supporte</p>
+<p>Et puis finalement, nous devons modifier l'implémentation de notre modèle, afin que l'ajout de tâche soit supporté</p>
 <img src="@routes.Assets.at("images/task1.png")" alt="Oops, good luck without pictures">
-<p>Awesome! Try it out in you browser...oops wrong language. Je crois que nous sommes encore une fois arrive a un point qui merite d'etre souligne. Sortons le champagne ainsi que notre fidele outils Git. On peut executer la commande git status afin de savoir ce qu'on a change depuis le dernier commit. On peut prendre la photo du projet courant en executant les commandes</p>
+<p>Awesome! Try it out in your browser...oops wrong language. Je crois que nous sommes encore une fois arrivé à un point qui merite d'être souligné. Sortons le champagne ainsi que notre fidèle outils Git. On peut éxécuter la commande git status afin de savoir ce qu'on a changé depuis le dernier commit. On peut prendre la photo du projet dans son état courant en éxécutant les commandes</p>
 <p>git add --all</p>
 <p>git commit -m "On peut maintenant ajouter des taches"</p>
-<h1>Delete</h1>
-<p>Il ne nous reste plus qu'a implementer la fonctionnalite de suppression d'une tache. I leave you the care of getting that done yourself, I have a party to go to, but don't forget to take a picture of it when you're finished. Adios my good friend.</p>
-<p>Ah oui!... Il va devoir egalement que tu "hard code" la recompense que chef Bram t'a promis. Assure toi que le premier todo en tout temps soit:</p>
+<h3>Delete</h3>
+<p>Il ne nous reste plus qu'à implementer la fonctionnalité de suppression d'une tâche. I leave you the care of getting that done yourself, I have a party to go to, but don't forget to take a picture of it when you're finished. Adios my good friend.</p>
+<p>Ah oui!... Il va devoir également que tu "hard code" la récompense que chef Bram t'a promis. Assure toi que le premier todo en tout temps soit:</p>
 <li>Paie @rewardAmount rubies to &#60your_name&#62<li>
 <p>L'utilisateur ne doit pas pouvoir l'effacer</p>
-<p>Zip moi ca (le repertoire du projet), puis remet moi ca sur Moodle.</p>
+<p>Zip moi ca (le repertoire du projet), puis remet moi ça sur Moodle.</p>
 }
