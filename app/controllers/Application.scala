@@ -7,7 +7,8 @@ object Application extends Controller {
   
   def index = Action {
   	import scala.util.Random
-    Ok(views.html.index(1 + Random.nextInt(10000), 1 + Random.nextInt(100), 1 + Random.nextInt(100), 1 + Random.nextInt(100)))
+  	val possibleDayNames = List("Turday", "Mayday", "Voday", "Olay", "Hulay", "Sunday", "Nightday", "Moonday", "Jupiday", "Pluday")
+    Ok(views.html.index(1 + Random.nextInt(10000), Random.shuffle(possibleDayNames).take(7)))
   }
   
 }
