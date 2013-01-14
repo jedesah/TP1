@@ -101,11 +101,15 @@
 		  <li>@dayName</li>
 	  }
   </ul>
-  <p>Tu peux tester que ta modification à V8 est correct, en compilant le projet et en partant la commande shell qui se trouve dans le répertoire out/native du projet. Dans le shell, tu peux déclarer un nouvel objet date avec "var d = new Date(60000);". Ensuite si tu entres "d", l'object va s'imprimer à l'écran et tu devrais voir la date avec les nouveaux noms de jours. SVN te permet de créer un fichier diff que tu pourras envoyer à l'équipe de V8 avec un message comme quoi tes mots sont mieux. Exécute la commande "svn diff > my_patch". Pour t'assurer que ça l'a bien fonctionné, on peut "revert" le fichier qu'on a modifé et voir si on peut ré-appliqué notre changement de façon automatique. Exécute la commande "svn revert" sur le fichier que tu as changé. Le fichier devrait retourner à sa version originale. Si tu exécute la commande "svn status", svn devrait te dire qu'il n'est pas au courant d'un changement apporté à ce fichier. Maintenant, tu peux réappliquer le changement en exécutant la commande "svn patch 
+  <p>Tu peux tester que ta modification à V8 est correct, en compilant le projet et en partant la commande shell qui se trouve dans le répertoire out/native du projet. Dans le shell, tu peux déclarer un nouvel objet date avec "var d = new Date(60000);". Ensuite si tu entres "d", l'object va s'imprimer à l'écran et tu devrais voir la date avec les nouveaux noms de jours. SVN te permet de créer un fichier diff que tu pourras envoyer à l'équipe de V8 avec un message comme quoi tes mots sont mieux. Exécute la commande "svn diff > my_patch". Pour t'assurer que ça l'a bien fonctionné, on peut "revert" le fichier qu'on a modifé et voir si on peut ré-appliqué notre changement de façon automatique. Exécute la commande "svn revert" sur le fichier que tu as changé. Le fichier devrait retourner à sa version originale. Si tu exécute la commande "svn status", svn devrait te dire qu'il n'est pas au courant d'un changement apporté à ce fichier. Maintenant, tu peux réappliquer le changement en exécutant la commande "svn 
+patch
   my_patch".<p>
-  <p>Remet le ficher my_patch sur Moodle.</p>
+  <p>Remet le ficher my_patch ci-dessous avec un ou deux matricule:</p>
   @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
-    <input type="file" name="picture">
+    <label for="fichier">Fichier:</label>
+    <input type="file" name="file" id="fichier">
+    <label for="matricule">Matricule(s):</label>
+    <input name="matricule" id="matricule">
     <p>
       <input type="submit">
     </p>
