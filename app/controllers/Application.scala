@@ -48,6 +48,17 @@ object Application extends Controller {
     }
   }
 
+  def uploadGit = Action(parse.multipartFormData) { request =>
+    val matricules = request.body.asFormUrlEncoded("matricule").head
+    (request.body.file("file"), matricules) match {
+      case (Some(file), matricules) => {
+	if (verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))) Ok("Tu as recu 80/80 pour la partie 1 du TP1")
+	else Ok("Tu as recu 0/20 pour la partie 1 du TP1. Tu peux televerser une nouvelle solution pour modifier ton score pour cette partie du TP.")
+      }
+      case _ => BadRequest("You did something wrong")
+    }
+  }
+
   def showGrades = Action {
     val grades = database withSession {
       val query = for {
@@ -69,5 +80,16 @@ object Application extends Controller {
     else if (listOfLines(4).startsWith("@@ -206")) true
     else if (listOfLines(4).startsWith("@@ -224")) true
     else false
+  }
+
+  private def verifyTodoApplication(zipFile: java.util.zip.ZipFile) = {
+    import collection.JavaConverters._
+    val entries = zipFile.entries.asScala.toList
+    val names = entries.map(_.getName)
+    if (!names.exists(_.endsWith("/.git/"))) false
+    else if (!names.exists(_.endsWith("app/controllers/Application.scala"))) false
+    else if (!names.exists(_.endsWith("app/models/Task.scala"))) false
+    else if (!names.exists(_.endsWith("app/views/"))) false
+    else true
   }
 }

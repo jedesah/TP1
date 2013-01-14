@@ -94,6 +94,15 @@
   <li>Paie @rewardAmount rubies to &#60your_name&#62<li>
   <p>L'utilisateur ne doit pas pouvoir le supprimer</p>
   <p>Zip le répertoire du projet, puis remets-moi ça sur Moodle.</p>
+  @helper.form(action = routes.Application.uploadGit, 'enctype -> "multipart/form-data") {
+    <label for="fichierGit">Fichier:</label>
+    <input type="file" name="file" id="fichierGit">
+    <label for="matriculeGit">Matricule(s):</label>
+    <input name="matricule" id="matriculeGit">
+    <p>
+      <input type="submit">
+    </p>
+  }
   <h2>Tutoriel 2</h2>
   <p>Le chef Bram a encore besoin de toi pour une nouvelle tâche. Dans le futur, la mesure du temps n'est pas aussi omniprésente qu'elle l'était avant. Chef Bram aimerait profiter de l'occasion pour changer le nom des jours. Pour ce faire, tu vas devoir faire un checkout du projet V8 (l'interpréteur Javascript de Chrome) et modifier l'implémentation du temps pour que les gens qui programment en javascript puissent bénéficier des meilleurs noms pour les jours proposés par le chef Bram. Le projet V8 se trouve <a href="http://code.google.com/p/v8/">ici</a>. Tu es rendu un apprenti magicien maintenant, je ne te dirai pas exactement comment faire. Chef Bram aimerait que les jours soient appelés ainsi:</p>
   <ul>
