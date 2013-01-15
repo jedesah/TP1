@@ -40,9 +40,9 @@ object Application extends Controller {
 	      (UserGradings insert userGrading)
 	    }
 	  }
-	  Ok("Tu as recus 20/20 pour la partie 2 du TP1")
 	}
-	else Ok("Tu as recus 0/20 pour la partie 2 du TP1. Tu peux televerser une nouvelle solution pour modifier ton score pour cette partie du TP.")
+	val maxGrade = 20
+	Ok(views.html.feedback(if (success) maxGrade else 0, maxGrade, Nil))
       }
       case _ => BadRequest("You did something wrong")
     }
@@ -52,8 +52,8 @@ object Application extends Controller {
     val matricules = request.body.asFormUrlEncoded("matricule").head
     (request.body.file("file"), matricules) match {
       case (Some(file), matricules) => {
-	if (verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))) Ok("Tu as recu 80/80 pour la partie 1 du TP1")
-	else Ok("Tu as recu 0/20 pour la partie 1 du TP1. Tu peux televerser une nouvelle solution pour modifier ton score pour cette partie du TP.")
+	val (grade, reasons) = verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))
+	Ok(views.html.feedback(grade, 80, reasons))
       }
       case _ => BadRequest("You did something wrong")
     }
@@ -82,14 +82,19 @@ object Application extends Controller {
     else false
   }
 
-  private def verifyTodoApplication(zipFile: java.util.zip.ZipFile) = {
+  private def verifyTodoApplication(zipFile: java.util.zip.ZipFile): (Int, List[String]) = {
     import collection.JavaConverters._
     val entries = zipFile.entries.asScala.toList
     val names = entries.map(_.getName)
-    if (!names.exists(_.endsWith("/.git/"))) false
-    else if (!names.exists(_.endsWith("app/controllers/Application.scala"))) false
-    else if (!names.exists(_.endsWith("app/models/Task.scala"))) false
-    else if (!names.exists(_.endsWith("app/views/"))) false
-    else true
+    val gitReason = if (names.exists(_.endsWith("/.git/")))
+      None else Some("This directory does not appear to be versioned with Git")
+    val applicationReason = if (names.exists(_.endsWith("app/controllers/Application.scala")))
+      None else Some("Expected a file named Application.scala in directory named controllers")
+    val taskReason = if (names.exists(_.endsWith("app/models/Task.scala")))
+      None else Some("Expected a file named Task.scala in directory named models")
+    val viewsReason = if (names.exists(_.endsWith("app/views/")))
+      None else Some("Expected to find a directory named views")
+    val reasons = List(gitReason, applicationReason, taskReason, viewsReason).filter(_.isInstanceOf[Some[_]])
+    (80 - (reasons.length * 20), reasons.map(_.get))
   }
 }

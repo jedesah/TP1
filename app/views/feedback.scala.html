@@ -1,0 +1,13 @@
+@(grade: Int, maxGrade: Int, reasons: List[String])
+
+@main("TP1 - feedback") {
+  <p>Tu as recu @grade/@maxGrade pour cette partie du TP1.</p>
+  @if(grade != maxGrade) {
+    <ul>
+      @reasons.map{ reason =>
+	<li>@reason</li>
+      }
+    </ul>
+    <p>Tu a jusqu'a la date limite afin de televerser une nouvelle version afin d'obtenir un meilleur score.</p>
+  }
+}
