@@ -29,20 +29,10 @@ object Application extends Controller {
     (request.body.file("file"), matricules) match {
       case (Some(file), matricules) => {
 	val success = verifyV8Patch(io.Source.fromFile(file.ref.file))
-	if (success) {
-	  database withSession {
-	    val grading = AssignementGrading(None, "Part 2", 20)
-	    println(AssignementGradings.getClass)
-	    val id = (AssignementGradings returning AssignementGradings.id insert grading)
-	    println(id)
-	    for (matricule <- matricules.split(' ')) {
-	      val userGrading = UserGrading(None, matricule.toInt, id)
-	      (UserGradings insert userGrading)
-	    }
-	  }
-	}
 	val maxGrade = 20
-	Ok(views.html.feedback(if (success) maxGrade else 0, maxGrade, Nil))
+	val grade = if (success) 20 else 0
+	addGradeToDB("Part 2", matricules, grade)
+	Ok(views.html.feedback(grade, maxGrade, Nil))
       }
       case _ => BadRequest("You did something wrong")
     }
@@ -53,6 +43,7 @@ object Application extends Controller {
     (request.body.file("file"), matricules) match {
       case (Some(file), matricules) => {
 	val (grade, reasons) = verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))
+	addGradeToDB("Part 2", matricules, grade)
 	Ok(views.html.feedback(grade, 80, reasons))
       }
       case _ => BadRequest("You did something wrong")
@@ -68,6 +59,17 @@ object Application extends Controller {
       query.list
     }
     Ok(grades.mkString("\n"))
+  }
+
+  private def addGradeToDB(partName: String, matricules: String, grade: Int) {
+    database withSession {
+      val grading = AssignementGrading(None, partName, grade)
+      val id = (AssignementGradings returning AssignementGradings.id insert grading)
+      for (matricule <- matricules.split(' ')) {
+	val userGrading = UserGrading(None, matricule.toInt, id)
+	(UserGradings insert userGrading)
+      }
+    }
   }
 
   private def verifyV8Patch(source: io.Source) = {
