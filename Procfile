@@ -1,1 +1,1 @@
-web: target/start -Dhttp.port=${PORT} -DapplyEvolutions.default=true -Dbd.default.url=${DATABASE_URL} -Dbd.default.driver=org.postgresql.Driver
+web: target/start -Dhttp.port=${PORT} -DapplyEvolutions.default=true -Dbd.default.url=${DATABASE_URL} -Dbd.default.driver=org.postgresql.Driver -Dbd.default.user=${DATABASE_USER} -Dbd.default.password=${DATABASE_PASSWORD}
