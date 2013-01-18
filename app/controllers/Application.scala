@@ -73,13 +73,10 @@ object Application extends Controller {
   private def verifyV8Patch(source: io.Source) = {
     val listOfLines = source.getLines.toList
     if (!listOfLines(0).endsWith("src/date.js")) false
-    else if (listOfLines(4).startsWith("@@ -205")) true
-    else if (listOfLines(4).startsWith("@@ -223")) true
-    else if (listOfLines(4).startsWith("@@ -204")) true
-    else if (listOfLines(4).startsWith("@@ -222")) true
-    else if (listOfLines(4).startsWith("@@ -206")) true
-    else if (listOfLines(4).startsWith("@@ -224")) true
-    else false
+    else {
+      listOfLines.exists(_ == "-var LongWeekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',") &&
+      listOfLines.exists(_.startsWith("+var LongWeekDays = ['"))
+    }
   }
 
   private def verifyTodoApplication(zipFile: java.util.zip.ZipFile): (Int, List[String]) = {
