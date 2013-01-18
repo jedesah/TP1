@@ -15,8 +15,8 @@ object Global extends GlobalSettings {
     lazy val database = Database.forDataSource(DB.getDataSource())
     
     database .withSession {
-      //AssignementGradings.ddl.drop
-      //UserGradings.ddl.drop
+      AssignementGradings.ddl.drop
+      UserGradings.ddl.drop
       AssignementGradings.ddl.create
       UserGradings.ddl.create
     }
