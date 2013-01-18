@@ -43,7 +43,7 @@ object Application extends Controller {
     (request.body.file("file"), matricules) match {
       case (Some(file), matricules) => {
 	val (grade, reasons) = verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))
-	addGradeToDB("TP1 Part 2", matricules, grade)
+	addGradeToDB("TP1 Part 1", matricules, grade)
 	Ok(views.html.feedback(grade, 80, reasons))
       }
       case _ => BadRequest("You did something wrong")
