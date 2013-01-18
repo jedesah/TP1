@@ -1,6 +1,6 @@
 package models
 
-import scala.slick.driver.H2Driver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 
 case class UserGrading(id: Option[Int] = None, userId: Int, gradingId: Int)
 
@@ -12,4 +12,6 @@ object UserGradings extends Table[UserGrading]("userGrading") {
   def gradingId = column[Int]("gradingId")
   
   def * = id.? ~ userId ~ gradingId <>(UserGrading, UserGrading.unapply _)
+
+  def autoInc = userId ~ gradingId returning id
 }

@@ -3,7 +3,7 @@ package controllers
 import play.api._
 import play.api.mvc._
 
-import scala.slick.driver.H2Driver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 
 import scala.slick.session.Session
 import play.api.db._
@@ -31,7 +31,7 @@ object Application extends Controller {
 	val success = verifyV8Patch(io.Source.fromFile(file.ref.file))
 	val maxGrade = 20
 	val grade = if (success) 20 else 0
-	addGradeToDB("Part 2", matricules, grade)
+	addGradeToDB("TP1 Part 2", matricules, grade)
 	Ok(views.html.feedback(grade, maxGrade, Nil))
       }
       case _ => BadRequest("You did something wrong")
@@ -43,7 +43,7 @@ object Application extends Controller {
     (request.body.file("file"), matricules) match {
       case (Some(file), matricules) => {
 	val (grade, reasons) = verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))
-	addGradeToDB("Part 2", matricules, grade)
+	addGradeToDB("TP1 Part 2", matricules, grade)
 	Ok(views.html.feedback(grade, 80, reasons))
       }
       case _ => BadRequest("You did something wrong")
@@ -63,11 +63,9 @@ object Application extends Controller {
 
   private def addGradeToDB(partName: String, matricules: String, grade: Int) {
     database withSession {
-      val grading = AssignementGrading(None, partName, grade)
-      val id = (AssignementGradings returning AssignementGradings.id insert grading)
+      val id = AssignementGradings.autoInc.insert(partName, grade)
       for (matricule <- matricules.split(' ')) {
-	val userGrading = UserGrading(None, matricule.toInt, id)
-	(UserGradings insert userGrading)
+	UserGradings.autoInc.insert(matricule.toInt, id)
       }
     }
   }

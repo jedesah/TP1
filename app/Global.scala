@@ -1,7 +1,7 @@
 import play.api.db.DB
 import play.api.GlobalSettings
 // Use H2Driver to connect to an H2 database
-import scala.slick.driver.H2Driver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 // Use the implicit threadLocalSession
 import Database.threadLocalSession
 import play.api.Application
@@ -15,6 +15,8 @@ object Global extends GlobalSettings {
     lazy val database = Database.forDataSource(DB.getDataSource())
     
     database .withSession {
+      AssignementGradings.ddl.drop
+      UserGradings.ddl.drop
       AssignementGradings.ddl.create
       UserGradings.ddl.create
     }

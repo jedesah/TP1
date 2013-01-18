@@ -1,6 +1,6 @@
 package models
 
-import scala.slick.driver.H2Driver.simple._
+import scala.slick.driver.PostgresDriver.simple._
 
 case class AssignementGrading(id: Option[Int] = None, name: String, grade: Int)
 
@@ -12,4 +12,6 @@ object AssignementGradings extends Table[AssignementGrading]("assignementGrading
   def grade = column[Int]("grade")
   
   def * = id.? ~ name ~ grade <>(AssignementGrading, AssignementGrading.unapply _)
+
+  def autoInc = name ~ grade returning id
 }
