@@ -59,7 +59,7 @@
   <img src="@routes.Assets.at("images/application1.png")" alt="Oops, good luck without pictures">
   <p>Comme tu le constates, on peut utiliser TODO pour indiquer que la fonction n'est pas encore implémentée. Si tu tentes de naviguer vers la page http://localhost:9000/tasks, tu devrais voir un message qui indique que ce "URL" n'est pas encore implémenté. Avant de pouvoir fournir des implémentations adéquates à notre contrôleur, nous allons devoir modéliser la logique du domaine qui nous intéresse. Crée le fichier app/models/Task.scala et ajoute le contenu suivant:</p>
   <img src="@routes.Assets.at("images/task.png")" alt="Oops, good luck without pictures">
-  <p>Attaquons-nous maintenant à l'implémentation de la vue (page html). Modifie le contenu du fichier app/views/index.html.scala pour avoir ceci:</p>
+  <p>Attaquons-nous maintenant à l'implémentation de la vue (page html). Modifie le contenu du fichier app/views/index.scala.html pour avoir ceci:</p>
   <img src="@routes.Assets.at("images/view1.png")" alt="Oops, good luck without pictures">
   <p>Maintenant, faisons appel à notre vue à partir du contrôleur. Change le contenu du fichier app/controller/Application.scala pour ce qui suit:</p>
   <img src="@routes.Assets.at("images/application2.png")" alt="Oops, good luck without pictures">
@@ -89,10 +89,10 @@
   <p>git add --all</p>
   <p>git commit -m "On peut maintenant ajouter des taches"</p>
   <h3>Delete</h3>
-  <p>Il ne nous reste plus qu'à implémenter la fonctionnalité de suppression d'une tâche. I leave you the care of getting that done yourself, I have a party to go to, but don't forget to take a picture of it when you're finished. Adios my good friend.</p>
+  <p>Il ne nous reste plus qu'à implémenter la fonctionnalité de suppression d'une tâche. Vous devrez changer l'implémentation de notre application web afin qu'il y ait un bouton à côté de chaque tâche qui permet à l'utilisateur de supprimer une tâche. I leave you the care of getting that done yourself, I have a party to go to. Pour implémenter dont il est question, j'ai déjà mis ça en place pour toi dans le fichier routes pour que le id de la tâche en question soit encodé dans le URL. L'implémentation de la fonctionnalité delete devrait donc paraître passiblement plus simple que celle de l'ajout de tâche. Il s'agit d'ajouter un form avec un seul bouton submit à la bonne place dans notre fichier index.scala.html et d'inclure le id dans l'appel de fonction qui génère un url. Ensuite la fonction dans le controlleur devrait être simple, il faut juste pas oublier de mettre le tout dans une Action (pas nécessairement besoin de savoir l'utilité de Action) et de rediriger l'utilisateur vers la page principale lorsque notre traitement est terminé.</p> <p>Don't forget to take a picture of it when you're finished. Adios my good friend.</p>
   <p>Ah oui!... Il va devoir également que tu "hard code" la récompense que chef Bram t'a promis. Assure-toi que le premier "to do" soit:</p>
   <li>Paie @rewardAmount rubies to &#60your_name&#62<li>
-  <p>L'utilisateur ne doit pas pouvoir le supprimer</p>
+  <p>L'utilisateur ne doit pas pouvoir le supprimer (Idéalement, il ne devrait pas y avoir de bouton pour cette tâche, mais casse-toi pas la tête, "think outside the box" et essaye de trouver une solution très simple à ce problème si tu commence à t'engager dans quelque chose de complexe).</p>
   <p>Zip le répertoire du projet, puis remets-moi ça juste en bas ici.</p>
   @helper.form(action = routes.Application.uploadGit, 'enctype -> "multipart/form-data") {
     <label for="fichierGit">Fichier:</label>
