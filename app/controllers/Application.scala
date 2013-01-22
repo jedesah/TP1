@@ -24,31 +24,43 @@ object Application extends Controller {
     Ok(views.html.index(1 + Random.nextInt(10000), Random.shuffle(possibleDayNames).take(7)))
   }
   
-  def upload = Action(parse.multipartFormData) { request =>
-    val matricules = request.body.asFormUrlEncoded("matricule").head
-    (request.body.file("file"), matricules) match {
-      case (Some(file), matricules) => {
-	val success = verifyV8Patch(io.Source.fromFile(file.ref.file))
-	val maxGrade = 20
-	val grade = if (success) 20 else 0
-	addGradeToDB("TP1 Part 2", matricules, grade)
-	Ok(views.html.feedback(grade, maxGrade, Nil))
-      }
-      case _ => BadRequest("You did something wrong")
-    }
+  def uploadV8 = Action(parse.multipartFormData) { request =>
+    parseUploadAndGrade(request, verifyV8Patch, 20, "TP1 Part 2")
   }
 
   def uploadGit = Action(parse.multipartFormData) { request =>
-    val matricules = request.body.asFormUrlEncoded("matricule").head
-    (request.body.file("file"), matricules) match {
-      case (Some(file), matricules) => {
-	val (grade, reasons) = verifyTodoApplication(new java.util.zip.ZipFile(file.ref.file))
-	addGradeToDB("TP1 Part 1", matricules, grade)
-	Ok(views.html.feedback(grade, 80, reasons))
-      }
-      case _ => BadRequest("You did something wrong")
+    parseUploadAndGrade(request, verifyTodoApplication, 80, "TP1 Part 1")
+  }
+
+  def parseUploadAndGrade(request: Request[MultipartFormData[play.api.libs.Files.TemporaryFile]], correction: (java.io.File) => (Int, List[String]), maxGrade: Int, name: String) = {
+    try {
+      val matricule1Str = request.body.asFormUrlEncoded("matricule1").head
+      val matricule1 = validateMatricule(matricule1Str)
+      val matricule2Str = request.body.asFormUrlEncoded("matricule2").head
+      val matricules = matricule1 :: (if (matricule2Str != "") List(validateMatricule(matricule2Str)) else Nil)
+      val file = request.body.file("file").get
+      val (grade, reasons) = correction(file.ref.file)
+      addGradeToDB(name, matricules, grade)
+      Ok(views.html.feedback(grade, maxGrade, reasons))
+    } catch {
+      case InvalidMatriculeError(msg) => BadRequest(msg)
+      case e: NoSuchElementException => BadRequest("No file was submitted")
     }
   }
+
+  def validateMatricule(matriculeString: String): Int = {
+    if (matriculeString.length != 7)
+      throw InvalidMatriculeError(s"""Matricule: "$matriculeString" must be 7 digits long""")
+    try {
+      matriculeString.toInt
+    }
+    catch {
+      case e: NumberFormatException =>
+	throw InvalidMatriculeError(s"""Matricule: "$matriculeString" must contain only digits""")
+    }
+  }
+
+  case class InvalidMatriculeError(msg: String) extends Exception
 
   def showGrades = Action {
     val grades = database withSession {
@@ -61,25 +73,29 @@ object Application extends Controller {
     Ok(grades.mkString("\n"))
   }
 
-  private def addGradeToDB(partName: String, matricules: String, grade: Int) {
+  private def addGradeToDB(partName: String, matricules: List[Int], grade: Int) {
     database withSession {
       val id = AssignementGradings.autoInc.insert(partName, grade)
-      for (matricule <- matricules.split(' ')) {
-	UserGradings.autoInc.insert(matricule.toInt, id)
+      for (matricule <- matricules) {
+	UserGradings.autoInc.insert(matricule, id)
       }
     }
   }
 
-  private def verifyV8Patch(source: io.Source) = {
+  private def verifyV8Patch(file: java.io.File): (Int, List[String]) = {
+    val source = io.Source.fromFile(file)
     val listOfLines = source.getLines.toList
-    if (!listOfLines(0).endsWith("src/date.js")) false
+    if (!listOfLines(0).endsWith("src/date.js")) (0, List("Expected different file to be modified"))
     else {
-      listOfLines.exists(_ == "-var LongWeekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',") &&
-      listOfLines.exists(_.startsWith("+var LongWeekDays = ['"))
+      val removedLine = listOfLines.exists(_ == "-var LongWeekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday',")
+      val addedLine = listOfLines.exists(_.startsWith("+var LongWeekDays = ['"))
+      if (removedLine && addedLine) (20, Nil)
+      else (0, List("Expected different modification to file \"src/date.js\""))
     }
   }
 
-  private def verifyTodoApplication(zipFile: java.util.zip.ZipFile): (Int, List[String]) = {
+  private def verifyTodoApplication(file: java.io.File): (Int, List[String]) = {
+    val zipFile = new java.util.zip.ZipFile(file)
     import collection.JavaConverters._
     val entries = zipFile.entries.asScala.toList
     val names = entries.map(_.getName)

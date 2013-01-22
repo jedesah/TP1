@@ -94,15 +94,7 @@
   <li>Paie @rewardAmount rubies to &#60your_name&#62<li>
   <p>L'utilisateur ne doit pas pouvoir le supprimer (Idéalement, il ne devrait pas y avoir de bouton pour cette tâche, mais casse-toi pas la tête, "think outside the box" et essaye de trouver une solution très simple à ce problème si tu commence à t'engager dans quelque chose de complexe).</p>
   <p>Zip le répertoire du projet, puis remets-moi ça juste en bas ici.</p>
-  @helper.form(action = routes.Application.uploadGit, 'enctype -> "multipart/form-data") {
-    <label for="fichierGit">Fichier:</label>
-    <input type="file" name="file" id="fichierGit">
-    <label for="matriculeGit">Matricule(s):</label>
-    <input name="matricule" id="matriculeGit">
-    <p>
-      <input type="submit">
-    </p>
-  }
+  @submissionForm(routes.Application.uploadGit, "Git")
   <h2>Tutoriel 2</h2>
   <p>Le chef Bram a encore besoin de toi pour une nouvelle tâche. Dans le futur, la mesure du temps n'est pas aussi omniprésente qu'elle l'était avant. Chef Bram aimerait profiter de l'occasion pour changer le nom des jours. Pour ce faire, tu vas devoir faire un checkout du projet V8 (l'interpréteur Javascript de Chrome) et modifier l'implémentation du temps pour que les gens qui programment en javascript puissent bénéficier des meilleurs noms pour les jours proposés par le chef Bram. Le projet V8 se trouve <a href="http://code.google.com/p/v8/">ici</a>. Tu es rendu un apprenti magicien maintenant, je ne te dirai pas exactement comment faire. Chef Bram aimerait que les jours soient appelés ainsi:</p>
   <ul>
@@ -114,13 +106,5 @@
 patch
   my_patch".<p>
   <p>Remet le ficher my_patch ci-dessous avec un ou deux matricule:</p>
-  @helper.form(action = routes.Application.upload, 'enctype -> "multipart/form-data") {
-    <label for="fichier">Fichier:</label>
-    <input type="file" name="file" id="fichier">
-    <label for="matricule">Matricule(s):</label>
-    <input name="matricule" id="matricule">
-    <p>
-      <input type="submit">
-    </p>
-  }
+  @submissionForm(routes.Application.uploadV8, "V8")
 }

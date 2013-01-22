@@ -1,0 +1,19 @@
+@(call: play.api.mvc.Call, name: String)
+
+@helper.form(action = call, 'enctype -> "multipart/form-data") {
+    <p>
+      <label for="fichier@name">Fichier:</label>
+      <input type="file" name="file" id="fichier@name">
+    </p>
+    <p>
+      <label for="matricule1@name">Matricule:</label>
+      <input name="matricule1" id="matricule1@name">
+    </p>
+    <p>
+      <label for="matricule2@name">Matricule #2, le cas echeant:</label>
+      <input name="matricule2" id="matricule2@name">
+    </p>
+    <p>
+      <input type="submit">
+    </p>
+}
