@@ -45,6 +45,9 @@ object Application extends Controller {
     } catch {
       case InvalidMatriculeError(msg) => BadRequest(msg)
       case e: NoSuchElementException => BadRequest("No file was submitted")
+      case e: java.util.zip.ZipException => BadRequest("Your file is in an unsupported zip format")
+      case e: java.io.IOException => BadRequest("An unknow io exception has occured. Make sure your submission file(s) are valid")
+      case _: Throwable => BadRequest("Le systeme semble avoir rencontre une erreur. Pour une qu'on ignore, les accents ne semble pas tres bien etre supporte par la version de Java sur le serveur. Svp, enlever le e accent aigu dans le mot revision du fichier diff que Fedora en francais ajoute. Si ca ne regle pas votre probleme, contactez le charge de lab")
     }
   }
 
