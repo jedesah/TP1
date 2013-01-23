@@ -33,6 +33,7 @@ object Application extends Controller {
   }
 
   def parseUploadAndGrade(request: Request[MultipartFormData[play.api.libs.Files.TemporaryFile]], correction: (java.io.File) => (Int, List[String]), maxGrade: Int, name: String) = {
+    val accentProblemExplanation = "Notice Temporaire: Pour une raison qu'on ignore, les accents ne semblent pas tres bien être supporté par la version de Java sur le serveur. Svp, enlever le é dans le mot revision du fichier diff produit par les postes Fedora à l'école. Si ça ne règle pas votre problème, contactez le charge de lab"
     try {
       val matricule1Str = request.body.asFormUrlEncoded("matricule1").head
       val matricule1 = validateMatricule(matricule1Str)
@@ -46,8 +47,8 @@ object Application extends Controller {
       case InvalidMatriculeError(msg) => BadRequest(msg)
       case e: NoSuchElementException => BadRequest("No file was submitted")
       case e: java.util.zip.ZipException => BadRequest("Your file is in an unsupported zip format")
-      case e: java.io.IOException => BadRequest("An unknow io exception has occured. Make sure your submission file(s) are valid")
-      case _: Throwable => BadRequest("Le systeme semble avoir rencontre une erreur. Pour une qu'on ignore, les accents ne semble pas tres bien etre supporte par la version de Java sur le serveur. Svp, enlever le e accent aigu dans le mot revision du fichier diff que Fedora en francais ajoute. Si ca ne regle pas votre probleme, contactez le charge de lab")
+      case e: java.io.IOException => BadRequest("An unknow io exception has occured. Make sure your submission file(s) are valid. " + accentProblemExplanation)
+      case _: Throwable => BadRequest("Le systeme semble avoir rencontre une erreur. " + accentProblemExplanation)
     }
   }
 
