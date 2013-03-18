@@ -9,6 +9,7 @@ object ApplicationBuild extends Build {
 
   val appDependencies = Seq(
     "com.typesafe" % "slick_2.10.0-RC1" % "0.11.2",
+    "com.typesafe" % "play-slick_2.10" % "0.3.0",
     "postgresql" % "postgresql" % "9.1-901-1.jdbc4",
     jdbc,
     anorm
@@ -16,7 +17,7 @@ object ApplicationBuild extends Build {
 
 
   val main = play.Project(appName, appVersion, appDependencies).settings(
-    // Add your own project settings here      
+    resolvers += Resolver.url("github repo for play-slick", url("http://loicdescotte.github.com/releases/"))(Resolver.ivyStylePatterns)
   )
 
 }

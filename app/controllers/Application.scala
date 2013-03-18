@@ -8,13 +8,22 @@ import scala.slick.driver.PostgresDriver.simple._
 import scala.slick.session.Session
 import play.api.db._
 import play.api.Play.current
+import play.api.data._
+import play.api.data.Forms._
 
 import Database.threadLocalSession
 
 import models.{AssignementGrading, AssignementGradings}
-import models.{UserGrading, UserGradings}
+import models.{UserGrading, UserGradings, Team, Teams}
 
 object Application extends Controller {
+
+	val newTeamForm = Form(
+		tuple(
+			"matricule1" -> text,
+			"matricule2" -> text
+		)
+	)
 
   lazy val database = Database.forDataSource(DB.getDataSource())
   
@@ -22,6 +31,24 @@ object Application extends Controller {
     import scala.util.Random
     val possibleDayNames = List("Turday", "Mayday", "Voday", "Olay", "Hulay", "Sunday", "Nightday", "Moonday", "Jupiday", "Pluday")
     Ok(views.html.index(1 + Random.nextInt(10000), Random.shuffle(possibleDayNames).take(7)))
+  }
+  
+  def teamList = Action {
+	val teams = database withSession {
+      val query =
+		for (team <- Teams)
+		yield (team.name1, team.name2, team.id)
+      query.list
+    }
+    Ok(views.html.teamList(teams))
+  }
+  
+  def createTeam = Action { implicit request =>
+	val (matricule1, matricule2) = newTeamForm.bindFromRequest.get
+	database withSession {
+      val id = Teams.autoInc.insert(matricule1, matricule2)
+    }
+    Redirect("/createTeam")
   }
   
   def uploadV8 = Action(parse.multipartFormData) { request =>

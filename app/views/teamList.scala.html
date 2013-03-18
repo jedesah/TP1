@@ -1,0 +1,19 @@
+@(teams: List[(String, String, Int)])
+
+@main("Create team") {
+	@teams.map{ team =>
+		<p>@team._1 @team._2 @team._3</p>
+	}
+	
+	@helper.form(action = routes.Application.createTeam) {
+		<p>
+			<label for="matricule1">Matricule1:</label>
+			<input name="matricule1" id="matricule1">
+		</p>
+		<p>
+			<label for="matricule2">Matricule2:</label>
+			<input name="matricule2" id="matricule2">
+		<p>
+		<input type="submit">
+	}
+}
