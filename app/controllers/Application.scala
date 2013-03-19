@@ -45,10 +45,16 @@ object Application extends Controller {
   
   def createTeam = Action { implicit request =>
 	val (matricule1, matricule2) = newTeamForm.bindFromRequest.get
-	database withSession {
-      val id = Teams.autoInc.insert(matricule1, matricule2)
+	if (matricule1.length == 7 && matricule2.length == 0)
+		Ok("Ce TP se fait strictement en equipe de deux")
+	else if(matricule1.length != 7 || matricule2.length != 7)
+		Ok("Svp. Entrer deux matricules valides")
+	else {
+		database withSession {
+		val id = Teams.autoInc.insert(matricule1, matricule2)
+		}
+		Redirect("/createTeam")
     }
-    Redirect("/createTeam")
   }
   
   def uploadV8 = Action(parse.multipartFormData) { request =>
