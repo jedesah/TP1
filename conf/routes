@@ -6,6 +6,7 @@
 GET     /                           	controllers.Application.index
 GET		/createTeam			controllers.Application.teamList
 POST	/createTeam			controllers.Application.createTeam
+GET		/svnScript			controllers.Application.svnScript
 POST	/uploadV8			controllers.Application.uploadV8
 POST	/uploadGit			controllers.Application.uploadGit
 GET	/showGrades			controllers.Application.showGrades

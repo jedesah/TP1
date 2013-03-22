@@ -43,6 +43,19 @@ object Application extends Controller {
     Ok(views.html.teamList(teams))
   }
   
+  def svnScript = Action {
+	val teams = database withSession {
+      val query =
+		for (team <- Teams)
+		yield (team.name1, team.name2, team.id)
+      query.list
+    }
+    val matricules = teams.map( team =>
+		List(team._1 + ":" + team._3, team._2 + ":" + team._3)
+	).flatten
+    Ok(matricules.mkString("\n"))
+  }
+  
   def createTeam = Action { implicit request =>
 	val (matricule1, matricule2) = newTeamForm.bindFromRequest.get
 	if (matricule1.length == 7 && matricule2.length == 0)
